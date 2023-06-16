@@ -1,0 +1,258 @@
+object fmBinaryClock: TfmBinaryClock
+  Left = 683
+  Height = 64
+  Top = 339
+  Width = 147
+  BorderStyle = bsToolWindow
+  Caption = 'Binary Clock 3'
+  ClientHeight = 64
+  ClientWidth = 147
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  OnMouseDown = FormMouseDown
+  LCLVersion = '2.2.6.0'
+  object imH20: TImage
+    Tag = 1
+    Left = 40
+    Height = 10
+    Top = 17
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imH10: TImage
+    Tag = 1
+    Left = 56
+    Height = 10
+    Top = 17
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imH8: TImage
+    Tag = 1
+    Left = 80
+    Height = 10
+    Top = 17
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imH4: TImage
+    Tag = 1
+    Left = 96
+    Height = 10
+    Top = 17
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imH2: TImage
+    Tag = 1
+    Left = 112
+    Height = 10
+    Top = 17
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imH1: TImage
+    Tag = 1
+    Left = 128
+    Height = 10
+    Top = 17
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imM80: TImage
+    Tag = 1
+    Left = 8
+    Height = 10
+    Top = 33
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imM40: TImage
+    Tag = 1
+    Left = 24
+    Height = 10
+    Top = 33
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imM10: TImage
+    Tag = 1
+    Left = 56
+    Height = 10
+    Top = 33
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imM20: TImage
+    Tag = 1
+    Left = 40
+    Height = 10
+    Top = 33
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imM8: TImage
+    Tag = 1
+    Left = 80
+    Height = 10
+    Top = 33
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imM4: TImage
+    Tag = 1
+    Left = 96
+    Height = 10
+    Top = 33
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imM2: TImage
+    Tag = 1
+    Left = 112
+    Height = 10
+    Top = 33
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imM1: TImage
+    Tag = 1
+    Left = 128
+    Height = 10
+    Top = 33
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imS80: TImage
+    Tag = 1
+    Left = 8
+    Height = 10
+    Top = 49
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imS40: TImage
+    Tag = 1
+    Left = 24
+    Height = 10
+    Top = 49
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imS10: TImage
+    Tag = 1
+    Left = 55
+    Height = 10
+    Top = 49
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imS20: TImage
+    Tag = 1
+    Left = 40
+    Height = 10
+    Top = 49
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object ims8: TImage
+    Tag = 1
+    Left = 80
+    Height = 10
+    Top = 49
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object ims4: TImage
+    Tag = 1
+    Left = 96
+    Height = 10
+    Top = 49
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object ims2: TImage
+    Tag = 1
+    Left = 112
+    Height = 10
+    Top = 49
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object imS1: TImage
+    Tag = 1
+    Left = 127
+    Height = 10
+    Top = 49
+    Width = 10
+    OnMouseDown = FormMouseDown
+  end
+  object Bevel1: TBevel
+    Tag = 1
+    Left = 73
+    Height = 10
+    Top = 17
+    Width = 9
+    Shape = bsLeftLine
+  end
+  object Bevel2: TBevel
+    Tag = 1
+    Left = 72
+    Height = 10
+    Top = 33
+    Width = 9
+    Shape = bsLeftLine
+  end
+  object Bevel3: TBevel
+    Tag = 1
+    Left = 72
+    Height = 10
+    Top = 49
+    Width = 9
+    Shape = bsLeftLine
+  end
+  object Label1: TLabel
+    Left = 8
+    Height = 13
+    Top = 3
+    Width = 126
+    Caption = ' 8   4   2   1       8   4   2   1'
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    ParentColor = False
+    ParentFont = False
+    OnMouseDown = FormMouseDown
+  end
+  object clocktimer: TTimer
+    OnTimer = clocktimerTimer
+    Left = 8
+    Top = 80
+  end
+  object pmTrayMenu: TPopupMenu
+    Left = 160
+    Top = 8
+    object MenuItem1: TMenuItem
+      Caption = 'Конфигуратор'
+      ShortCut = 115
+    end
+    object MenuItem2: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem3: TMenuItem
+      Caption = 'Выход'
+      ShortCut = 27
+    end
+  end
+  object TrayIcon1: TTrayIcon
+    PopUpMenu = pmTrayMenu
+    Left = 216
+    Top = 8
+  end
+end
