@@ -9,8 +9,9 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, DateUtils, StdCtrls, Menus,
-  configurator,utils;
-  {tlib,tcfg;}
+  configurator
+  , tapp, tini, tstr
+  ;
 
 type
 
@@ -82,9 +83,6 @@ type
     procedure InitLeds();
     procedure DecodeTimeToHMS();
     procedure Display();
-    //procedure BitOn(poImage : TImage);
-    //procedure BitOff(poImage : TImage);
-    //procedure BitExactlyOff(poImage : TImage);
     function  getTheme() : String;
     function  getBorder() :Integer;
     function  getAlpha() : Byte;
@@ -95,6 +93,7 @@ type
   end;
 
 {$i const.inc}
+
 
 var
   fmBinaryClock: TfmBinaryClock;
@@ -114,115 +113,97 @@ begin
   if pblCondition then
   begin
 
-    if poImage.Tag=0 then
+    if poImage.Tag = 0 then
     begin
 
       poImage.Picture.Bitmap.Assign(moBitOn);
-      poImage.Tag:=1;
+      poImage.Tag := 1;
     end;
   end else
   begin
 
-    if poImage.Tag>0 then
+    if poImage.Tag > 0 then
     begin
 
       poImage.Picture.Bitmap.Assign(moBitOff);
-      poImage.Tag:=0;
+      poImage.Tag := 0;
     end;
 	end;
 end;
-//
-//procedure TfmBinaryClock.BitOff(poImage : TImage);
-//begin
-//
-//  if poImage.Tag>0 then
-//  begin
-//
-//    poImage.Picture.Bitmap.Assign(moBitOff);
-//    poImage.Tag:=0;
-//  end;
-//end;
-//
-//
-//procedure TfmBinaryClock.BitExactlyOff(poImage : TImage);
-//begin
-//
-//  poImage.Picture.Bitmap.Assign(moBitOff);
-//  poImage.Tag:=0;
-//end;
 
 
 function TfmBinaryClock.getTheme : String;
 begin
 
-  Result:=msThemeName;
+  Result := msThemeName;
 end;
 
 
 function TfmBinaryClock.getBorder : Integer;
 begin
 
-  Result:=miBorderStyle;
+  Result := miBorderStyle;
 end;
 
 
 function TfmBinaryClock.getAlpha: Byte;
 begin
 
-  Result:=mbtAlphaValue;
+  Result := mbtAlphaValue;
 end;
 
 
 procedure TfmBinaryClock.setTheme(psThemeName : String);
 begin
 
-  msThemeName:=psThemeName;
+  msThemeName := psThemeName;
 end;
 
 
 procedure TfmBinaryClock.setBorder(piBorderStyle : Integer);
 begin
 
-  miBorderStyle:=piBorderStyle;
+  miBorderStyle := piBorderStyle;
 end;
 
 
 procedure TfmBinaryClock.setAlpha(pbtAlpha : Byte);
 begin
 
-  mbtAlphaValue:=pbtAlpha;
+  mbtAlphaValue := pbtAlpha;
 end;
 
 
 procedure TfmBinaryClock.SaveConfig;
+var loIniMgr : TEasyIniManager;
 begin
 
-  IniOpen(g_sProgrammFolder+ccSlashChar+csConfigFile);
-
+  loIniMgr := TEasyIniManager.Create(getAppFolder() + csConfigFile);
   //**** Тема
-  IniWriteString('MAIN','THEME',msThemeName);
+  loIniMgr.write('MAIN', 'THEME', msThemeName);
 
   //***** Обрамление окна
-  IniWriteInt('MAIN','BORDERSTYLE',miBorderStyle);
+  loIniMgr.write('MAIN', 'BORDERSTYLE', miBorderStyle);
 
   //***** Прозрачность
-  IniWriteInt('MAIN','ALPHA',mbtAlphaValue);
+  loIniMgr.write('MAIN', 'ALPHA', mbtAlphaValue);
 
   //**** Позиция окна
-  IniWriteInt('MAIN','TOP',Top);
-  IniWriteInt('MAIN','LEFT',Left);
-  IniClose;
+  loIniMgr.write('MAIN', 'TOP', Top);
+  loIniMgr.write('MAIN', 'LEFT', Left);
+  FreeAndNil(loIniMgr);
 end;
 
 
 procedure TfmBinaryClock.LoadConfig;
+var loIniMgr : TEasyIniManager;
 begin
 
-  IniOpen(g_sProgrammFolder+ccSlashChar+csConfigFile);
-  msThemeName:=IniReadString('MAIN','THEME','cyan');
-  miBorderStyle:=IniReadInt('MAIN','BORDER',ciDialogBorder);
-  mbtAlphaValue:=Byte(IniReadInt('MAIN','ALPHA',255));
-  IniClose;
+  loIniMgr := TEasyIniManager.Create(getAppFolder() + csConfigFile);
+  msThemeName:=loIniMgr.read('MAIN', 'THEME', 'cyan');
+  miBorderStyle:=loIniMgr.read('MAIN', 'BORDER', ciDialogBorder);
+  mbtAlphaValue:=Byte(loIniMgr.read('MAIN', 'ALPHA', 255));
+  FreeAndNil(loIniMgr);
 end;
 
 
@@ -231,67 +212,56 @@ begin
 
   //***** Устанавливаем выбранную тему.
   FreeAndNil(moBitOn);
-  moBitOn:=TBitmap.Create;
-  moBitOn.LoadFromFile(g_sProgrammFolder+ccSlashChar+
-                       csThemesFolder+ccSlashChar+
-                       msThemeName+ccSlashChar+
+  moBitOn := TBitmap.Create;
+  moBitOn.LoadFromFile(GetAppFolder() +
+                       addSeparator(csThemesFolder) +
+                       addSeparator(msThemeName) +
                        csOnBitImage);
   FreeAndNil(moBitOff);
-  moBitOff:=TBitmap.Create;
-  moBitOff.LoadFromFile(g_sProgrammFolder+ccSlashChar+
-                        csThemesFolder+ccSlashChar+
-                        msThemeName+ccSlashChar+
+  moBitOff := TBitmap.Create;
+  moBitOff.LoadFromFile(GetAppFolder() +
+                        addSeparator(csThemesFolder) +
+                        addSeparator(msThemeName) +
                         csOffBitImage);
 
   //***** Устанавливаем обрамление
   case miBorderStyle of
     ciNoneBorder: begin
 
-      fmBinaryClock.BorderStyle:=bsNone;
-      Height:=64;
+      fmBinaryClock.BorderStyle := bsNone;
+      Height := 64;
     end;
-    ciDialogBorder: BorderStyle:=bsDialog;
-    ciThinBorder: BorderStyle:=bsToolWindow;
-    else BorderStyle:=bsDialog;
+    ciDialogBorder: BorderStyle := bsDialog;
+    ciThinBorder: BorderStyle := bsToolWindow;
+    else
+      BorderStyle := bsDialog;
   end;
 
   //***** Установим прозрачность
-  fmBinaryClock.AlphaBlend:=(mbtAlphaValue<255);
-  fmBinaryClock.AlphaBlendValue:=mbtAlphaValue;
-  InitLeds;
+  fmBinaryClock.AlphaBlend := (mbtAlphaValue < 255);
+  fmBinaryClock.AlphaBlendValue := mbtAlphaValue;
+  InitLeds();
 end;
 
-
-//procedure TfmBinaryClock.BitOn(poImage : TImage);
-//begin
-//
-//  if poImage.Tag=0 then
-//  begin
-//
-//    poImage.Picture.Bitmap.Assign(moBitOn);
-//    poImage.Tag:=1;
-//  end;
-//end;
-//
 
 procedure TfmBinaryClock.clocktimerTimer(Sender: TObject);
 begin
 
-  DecodeTimeToHMS;
-  Display;
+  DecodeTimeToHMS();
+  Display();
 end;
 
 
 procedure TfmBinaryClock.DecodeTimeToHMS();
 begin
 
-  mdtTime:=Now;
-  mwTensHours:=HourOf(mdtTime) div 10;
-  mwHours:=HourOf(mdtTime) mod 10;
-  mwTensMinutes:=MinuteOf(mdtTime) div 10;
-  mwMinutes:=MinuteOf(mdtTime) mod 10;
-  mwTensSeconds:=SecondOf(mdtTime) div 10;
-  mwSeconds:=SecondOf(mdtTime) mod 10;
+  mdtTime := Now;
+  mwTensHours := HourOf(mdtTime) div 10;
+  mwHours := HourOf(mdtTime) mod 10;
+  mwTensMinutes := MinuteOf(mdtTime) div 10;
+  mwMinutes := MinuteOf(mdtTime) mod 10;
+  mwTensSeconds := SecondOf(mdtTime) div 10;
+  mwSeconds := SecondOf(mdtTime) mod 10;
 end;
 
 
@@ -299,61 +269,39 @@ procedure TfmBinaryClock.Display();
 begin
 
   {---< Десятки часов >---}
-  //if mwTensHours and 1=1 then BitOn(imH10) else BitOff(imH10);
   switchBit(imH10, mwTensHours and 1=1);
-  //if mwTensHours and 2=2 then BitOn(imH20) else BitOff(imH20);
   switchBit(imH20, mwTensHours and 2=2);
 
   {---< Часы >---}
-  //if mwHours and 1=1 then BitOn(imH1) else BitOff(imH1);
   switchBit(imH1, mwHours and 1=1);
 
-  //if mwHours and 2=2 then BitOn(imH2) else BitOff(imH2);
   switchBit(imH2, mwHours and 2=2);
 
-  //if mwHours and 4=4 then BitOn(imH4) else BitOff(imH4);
   switchBit(imH4, mwHours and 4=4);
-  //if mwHours and 8=8 then BitOn(imH8) else BitOff(imH8);
   switchBit(imH8, mwHours and 8=8);
 
   {---< Десятки минут >---}
-  //if mwTensMinutes and 1=1 then BitOn(imM10) else BitOff(imM10);
   switchBit(imM10, mwTensMinutes and 1=1);
-  //if mwTensMinutes and 2=2 then BitOn(imM20) else BitOff(imM20);
   switchBit(imM20, mwTensMinutes and 2=2);
-  //if mwTensMinutes and 4=4 then BitOn(imM40) else BitOff(imM40);
   switchBit(imM40, mwTensMinutes and 4=4);
-  //if mwTensMinutes and 8=8 then BitOn(imM80) else BitOff(imM80);
   switchBit(imM80, mwTensMinutes and 8=8);
 
   {---< Минуты >---}
-  //if mwMinutes and 1=1 then BitOn(imM1) else BitOff(imM1);
   switchBit(imM1, mwMinutes and 1=1);
-  //if mwMinutes and 2=2 then BitOn(imM2) else BitOff(imM2);
   switchBit(imM2, mwMinutes and 2=2);
-  //if mwMinutes and 4=4 then BitOn(imM4) else BitOff(imM4);
   switchBit(imM4, mwMinutes and 4=4);
-  //if mwMinutes and 8=8 then BitOn(imM8) else BitOff(imM8);
   switchBit(imM8, mwMinutes and 8=8);
 
   {---< Десятки секунд >---}
-  //if mwTensSeconds and 1=1 then BitOn(imS10) else BitOff(imS10);
   switchBit(imS10, mwTensSeconds and 1=1);
-  //if mwTensSeconds and 2=2 then BitOn(imS20) else BitOff(imS20);
   switchBit(imS20, mwTensSeconds and 2=2);
-  //if mwTensSeconds and 4=4 then BitOn(imS40) else BitOff(imS40);
   switchBit(imS40, mwTensSeconds and 4=4);
-  //if mwTensSeconds and 8=8 then BitOn(imS80) else BitOff(imS80);
   switchBit(imS80, mwTensSeconds and 8=8);
 
   {---< Секунды >---}
-  //if mwSeconds and 1=1 then BitOn(imS1) else BitOff(imS1);
   switchBit(imS1, mwSeconds and 1=1);
-  //if mwSeconds and 2=2 then BitOn(imS2) else BitOff(imS2);
   switchBit(imS2, mwSeconds and 2=2);
-  //if mwSeconds and 4=4 then BitOn(imS4) else BitOff(imS4);
   switchBit(imS4, mwSeconds and 4=4);
-  //if mwSeconds and 8=8 then BitOn(imS8) else BitOff(imS8);
   switchBit(imS8, mwSeconds and 8=8);
 end;
 
@@ -361,11 +309,13 @@ end;
 procedure TfmBinaryClock.FormActivate(Sender: TObject);
 begin
 
-  MainForm:=fmBinaryClock;
+  MainForm := fmBinaryClock;
   loadConfig();
   applyConfig();
   DecodeTimeToHMS();
   Display();
+  Hint := csTitle;
+  Caption := Hint;
 end;
 
 
@@ -378,13 +328,14 @@ end;
 
 
 procedure TfmBinaryClock.FormCreate(Sender: TObject);
+var loIniMgr : TEasyIniManager;
 begin
 
   inherited;
-  IniOpen(g_sProgrammFolder+ccSlashChar+csConfigFile);
-  Top:=IniReadInt('MAIN','TOP',0);
-  Left:=IniReadInt('MAIN','LEFT',0);
-  IniClose;
+  loIniMgr := TEasyIniManager.Create(getAppFolder() + csConfigFile);
+  Top := loIniMgr.read('MAIN', 'TOP', 0);
+  Left := loIniMgr.read('MAIN', 'LEFT', 0);
+  FreeAndNil(loIniMgr);
 end;
 
 
@@ -392,16 +343,16 @@ procedure TfmBinaryClock.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
 
-  if Key=vk_Escape then
+  if Key = vk_Escape then
   begin
 
     Close;
 	end;
 
-  if Key=vk_F4 then
+  if Key = vk_F4 then
   begin
 
-    if fmConfigurator.ShowModal=mrOk then
+    if fmConfigurator.ShowModal = mrOk then
     begin
 
       ApplyConfig();
@@ -453,7 +404,7 @@ end;
 
 
 procedure TfmBinaryClock.WMWINDOWPOSCHANGING(var Msg: TWMWINDOWPOSCHANGING);
-var WorkArea: TRect;
+var WorkArea : TRect;
     StickAt : Word;
 begin
 
@@ -463,8 +414,8 @@ begin
   begin
 
     // Сдвигаем границы для сравнения с левой и верхней сторонами
-	  Right:=Right-cx;
-	  Bottom:=Bottom-cy;
+	  Right := Right - cx;
+	  Bottom := Bottom - cy;
 	  if abs(Left - x) <= StickAt then
     begin
 
@@ -488,5 +439,6 @@ begin
 	end;
   inherited;
 end;
+
 
 end.

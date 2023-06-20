@@ -22,3 +22,5 @@ begin
   Application.CreateForm(TfmConfigurator, fmConfigurator);
   Application.Run;
 end.
+
+

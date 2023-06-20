@@ -4,7 +4,6 @@ object fmBinaryClock: TfmBinaryClock
   Top = 339
   Width = 147
   BorderStyle = bsToolWindow
-  Caption = 'Binary Clock 3'
   ClientHeight = 64
   ClientWidth = 147
   Color = clBtnFace
@@ -16,6 +15,7 @@ object fmBinaryClock: TfmBinaryClock
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnMouseDown = FormMouseDown
+  ShowHint = True
   LCLVersion = '2.2.6.0'
   object imH20: TImage
     Tag = 1
