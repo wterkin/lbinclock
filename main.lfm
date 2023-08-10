@@ -1,12 +1,14 @@
 object fmBinaryClock: TfmBinaryClock
   Left = 683
-  Height = 64
+  Height = 40
   Top = 339
-  Width = 147
+  Width = 137
   BorderStyle = bsToolWindow
-  ClientHeight = 64
-  ClientWidth = 147
+  ClientHeight = 40
+  ClientWidth = 137
   Color = clBtnFace
+  Constraints.MaxHeight = 40
+  Constraints.MinHeight = 40
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
@@ -19,216 +21,203 @@ object fmBinaryClock: TfmBinaryClock
   LCLVersion = '2.2.6.0'
   object imH20: TImage
     Tag = 1
-    Left = 40
+    Left = 35
     Height = 10
-    Top = 17
+    Top = 2
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imH10: TImage
     Tag = 1
-    Left = 56
+    Left = 51
     Height = 10
-    Top = 17
+    Top = 2
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imH8: TImage
     Tag = 1
-    Left = 80
+    Left = 76
     Height = 10
-    Top = 17
+    Top = 2
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imH4: TImage
     Tag = 1
-    Left = 96
+    Left = 92
     Height = 10
-    Top = 17
+    Top = 2
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imH2: TImage
     Tag = 1
-    Left = 112
+    Left = 107
     Height = 10
-    Top = 17
+    Top = 2
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imH1: TImage
     Tag = 1
-    Left = 128
+    Left = 123
     Height = 10
-    Top = 17
+    Top = 2
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imM80: TImage
     Tag = 1
-    Left = 8
+    Left = 4
     Height = 10
-    Top = 33
+    Top = 15
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imM40: TImage
     Tag = 1
-    Left = 24
+    Left = 20
     Height = 10
-    Top = 33
+    Top = 15
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imM10: TImage
     Tag = 1
-    Left = 56
+    Left = 51
     Height = 10
-    Top = 33
+    Top = 15
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imM20: TImage
     Tag = 1
-    Left = 40
+    Left = 35
     Height = 10
-    Top = 33
+    Top = 15
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imM8: TImage
     Tag = 1
-    Left = 80
+    Left = 76
     Height = 10
-    Top = 33
+    Top = 15
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imM4: TImage
     Tag = 1
-    Left = 96
+    Left = 92
     Height = 10
-    Top = 33
+    Top = 15
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imM2: TImage
     Tag = 1
-    Left = 112
+    Left = 107
     Height = 10
-    Top = 33
+    Top = 15
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imM1: TImage
     Tag = 1
-    Left = 128
+    Left = 123
     Height = 10
-    Top = 33
+    Top = 15
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imS80: TImage
     Tag = 1
-    Left = 8
+    Left = 4
     Height = 10
-    Top = 49
+    Top = 28
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imS40: TImage
     Tag = 1
-    Left = 24
+    Left = 20
     Height = 10
-    Top = 49
+    Top = 28
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imS10: TImage
     Tag = 1
-    Left = 55
+    Left = 51
     Height = 10
-    Top = 49
+    Top = 28
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imS20: TImage
     Tag = 1
-    Left = 40
+    Left = 35
     Height = 10
-    Top = 49
+    Top = 28
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object ims8: TImage
     Tag = 1
-    Left = 80
+    Left = 76
     Height = 10
-    Top = 49
+    Top = 28
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object ims4: TImage
     Tag = 1
-    Left = 96
+    Left = 92
     Height = 10
-    Top = 49
+    Top = 28
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object ims2: TImage
     Tag = 1
-    Left = 112
+    Left = 107
     Height = 10
-    Top = 49
+    Top = 28
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object imS1: TImage
     Tag = 1
-    Left = 127
+    Left = 123
     Height = 10
-    Top = 49
+    Top = 28
     Width = 10
     OnMouseDown = FormMouseDown
   end
   object Bevel1: TBevel
     Tag = 1
-    Left = 73
+    Left = 68
     Height = 10
-    Top = 17
+    Top = 2
     Width = 9
     Shape = bsLeftLine
   end
   object Bevel2: TBevel
     Tag = 1
-    Left = 72
+    Left = 68
     Height = 10
-    Top = 33
+    Top = 15
     Width = 9
     Shape = bsLeftLine
   end
   object Bevel3: TBevel
     Tag = 1
-    Left = 72
+    Left = 68
     Height = 10
-    Top = 49
+    Top = 28
     Width = 9
     Shape = bsLeftLine
-  end
-  object Label1: TLabel
-    Left = 8
-    Height = 13
-    Top = 3
-    Width = 126
-    Caption = ' 8   4   2   1       8   4   2   1'
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    ParentColor = False
-    ParentFont = False
-    OnMouseDown = FormMouseDown
   end
   object clocktimer: TTimer
     OnTimer = clocktimerTimer
